@@ -1,0 +1,147 @@
+{
+    "node_order": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5",
+        "node-6"
+    ],
+    "pod_order": [
+        "adservice-0",
+        "adservice-1",
+        "adservice-2",
+        "adservice2-0",
+        "cartservice-0",
+        "cartservice-1",
+        "cartservice-2",
+        "cartservice2-0",
+        "checkoutservice-0",
+        "checkoutservice-1",
+        "checkoutservice-2",
+        "checkoutservice2-0",
+        "currencyservice-0",
+        "currencyservice-1",
+        "currencyservice-2",
+        "currencyservice2-0",
+        "emailservice-0",
+        "emailservice-1",
+        "emailservice-2",
+        "emailservice2-0",
+        "frontend-0",
+        "frontend-1",
+        "frontend-2",
+        "frontend2-0",
+        "paymentservice-0",
+        "paymentservice-1",
+        "paymentservice-2",
+        "paymentservice2-0",
+        "productcatalogservice-0",
+        "productcatalogservice-1",
+        "productcatalogservice-2",
+        "productcatalogservice2-0",
+        "recommendationservice-0",
+        "recommendationservice-1",
+        "recommendationservice-2",
+        "recommendationservice2-0",
+        "shippingservice-0",
+        "shippingservice-1",
+        "shippingservice-2",
+        "shippingservice2-0"
+    ],
+    "service_order": [
+        "adservice",
+        "cartservice",
+        "checkoutservice",
+        "currencyservice",
+        "emailservice",
+        "frontend",
+        "paymentservice",
+        "productcatalogservice",
+        "recommendationservice",
+        "shippingservice"
+    ],
+    "related_metrics": {
+        "container": {
+            "CPU": [
+                "kpi_container_cpu_usage_seconds",
+                "kpi_container_cpu_user_seconds",
+                "kpi_container_cpu_system_seconds",
+                "kpi_container_cpu_cfs_throttled_seconds",
+                "kpi_container_cpu_cfs_throttled_periods"
+            ],
+            "Memory": [
+                "kpi_container_memory_cache",
+                "kpi_container_memory_mapped_file",
+                "kpi_container_memory_usage_MB",
+                "kpi_container_memory_working_set_MB",
+                "kpi_container_memory_rss"
+            ],
+            "Disk": [
+                "kpi_container_fs_inodes",
+                "kpi_container_fs_reads_MB",
+                "kpi_container_fs_usage_MB",
+                "kpi_container_fs_writes_MB"
+            ],
+            "Thread": [
+                "kpi_container_threads"
+            ],
+            "Network": [
+                "kpi_container_network_receive_packets",
+                "kpi_container_network_receive_MB",
+                "kpi_container_network_transmit_packets",
+                "kpi_container_network_transmit_MB"
+            ]
+        },
+        "istio": {
+            "Network": [
+                "kpi_istio_request_bytes",
+                "kpi_istio_request_duration_milliseconds",
+                "kpi_istio_request_messages",
+                "kpi_istio_requests",
+                "kpi_istio_response_bytes",
+                "kpi_istio_response_messages"
+            ]
+        },
+        "node": {
+            "CPU": [
+                "system.load.1",
+                "system.load.15",
+                "system.load.5",
+                "system.cpu.iowait",
+                "system.cpu.pct_usage",
+                "system.cpu.system",
+                "system.cpu.user"
+            ],
+            "Memory": [
+                "system.mem.pct_usage",
+                "system.mem.real.pct_useage",
+                "system.mem.real.used",
+                "system.mem.usable",
+                "system.mem.used"
+            ],
+            "Disk": [
+                "system.io.avg_q_sz",
+                "system.io.await",
+                "system.io.r_await",
+                "system.io.r_s",
+                "system.io.rkb_s",
+                "system.io.svctm",
+                "system.io.util",
+                "system.io.w_await",
+                "system.io.w_s",
+                "system.disk.free",
+                "system.disk.pct_usage",
+                "system.disk.used"
+            ]
+        },
+        "service": {
+            "Request": [
+                "rr",
+                "sr",
+                "mrt",
+                "count"
+            ]
+        }
+    }
+}

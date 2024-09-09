@@ -1,0 +1,21 @@
+{
+    "service_language": {
+        "adservice": "Java",
+        "cartservice": "C#",
+        "checkoutservice": "Go",
+        "currencyservice": "Node.js",
+        "emailservice": "Python",
+        "frontend": "Go",
+        "paymentservice": "Node.js",
+        "productcatalogservice": "Go",
+        "recommendationservice": "Python",
+        "shippingservice": "Go"
+    },
+    "language_service": {
+        "Java": ["adservice"],
+        "C#": ["cartservice"],
+        "Go": ["checkoutservice", "frontend", "productcatalogservice", "shippingservice"],
+        "Node.js": ["currencyservice", "paymentservice"],
+        "Python": ["emailservice", "recommendationservice"]
+    }
+}
