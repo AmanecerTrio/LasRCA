@@ -156,6 +156,11 @@ class BaseClass(ABC):
             index_dict['train'], index_dict['valid'] = train_test_split(sample_list, train_size=self.data_config['train_size'], random_state=rca_seed)
         index_dict['unlabeled'] = list(set(range(len(self.dataset['data']['train_valid']['y_marker']))) - set(index_dict['train']) - set(index_dict['valid']))
 
+        for dataset_type, index_list in index_dict.items():
+            self.dataset['data'][dataset_type] = dict()
+            for item_key in self.dataset['data']['train_valid']:
+                self.dataset['data'][dataset_type][item_key] = [self.dataset['data']['train_valid'][item_key][index] for index in index_list]
+
         self.dataset['data']['unlabeled']['y_mask'] = [np.zeros(y.shape[0]) for y in self.dataset['data']['unlabeled']['y']]
         self.dataset['data']['unlabeled']['y_from_llm'] = [np.zeros(y.shape[0]) for y in self.dataset['data']['unlabeled']['y']]
         pkl_save(f'{save_file_path}/{file_name}', self.dataset)
