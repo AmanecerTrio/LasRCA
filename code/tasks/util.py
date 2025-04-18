@@ -291,3 +291,42 @@ def get_explanation_prompts(dataset, test_probs, explanation_examples, k=0):
         record['prompt_types'].append(prompt_type)
     with open(f'/workspace/project/working/2024/LasRCA/temp_data/A/llm/prompts/iteration-{k}/explanation/record.json', 'w') as f:
         json.dump(record, f, indent=2)
+
+
+def get_all_samples(dataset, dataset_type):
+    all_prompt_save_path = "/workspace/project/working/2024/LasRCA/temp_data/A/prompt"
+    os.makedirs(all_prompt_save_path, exist_ok=True)
+
+    samples, important_sample_dict = [], dict()
+    unlabeled_data = dataset['data'][dataset_type]
+    fault_type_list = dataset['meta_data']['en_fault_type_list']
+    for sample_index in range(len(unlabeled_data['data'])):
+        samples.append({
+            'sample_index': sample_index,
+            'ent_indices': list(range(len(dataset['meta_data']['ent_names']))),
+            'ent_types': [],
+            'ent_names': dataset['meta_data']['ent_names'],
+            'raw_data': dataset['data'][dataset_type]['raw_data'][sample_index],
+            'data': dataset['data'][dataset_type]['data'][sample_index],
+            'labels': []
+        })
+
+        for ent_type in dataset['meta_data']['ent_types']:
+            ent_type_index = dataset['meta_data']['ent_type_index'][ent_type]
+            samples[-1]['ent_types'].extend([ent_type for _ in range(ent_type_index[1] - ent_type_index[0])])
+
+        for ent_index in range(len(dataset['meta_data']['ent_names'])):
+            real_label = int(dataset['data'][dataset_type]['y'][sample_index][ent_index])
+            if real_label != 0:
+                real_fault_type = fault_type_list[real_label - 1]
+                if real_fault_type not in important_sample_dict.keys():
+                    important_sample_dict[real_fault_type] = []
+                important_sample_dict[real_fault_type].append((sample_index, ent_index))
+            else:
+                real_fault_type = 'No fault'
+            samples[-1]['labels'].append(real_fault_type)
+
+    with open(f'{all_prompt_save_path}/important_{dataset_type}_samples.json', 'w') as f:
+        json.dump(important_sample_dict, f, indent=2)
+
+    pkl_save(f'{all_prompt_save_path}/all_{dataset_type}_samples.pkl', samples)

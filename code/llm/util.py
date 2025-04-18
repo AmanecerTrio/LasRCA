@@ -87,3 +87,29 @@ def prepare_explanation_examples(fault_example_dict: dict):
                     example_list.append(example_str)
                 example_dict[ent_type][example_name] = '\n\n'.join(example_list)
     return example_dict
+
+
+def get_all_prompt_template(sample_list: list, dataset_type):
+    fault_example_dict = pkl_load(f'{llm_content_save_path}/fault_examples.pkl')
+
+    all_prompt_save_path = f"/workspace/project/working/2024/LasRCA/temp_data/A/prompt/{dataset_type}"
+    for sample_index in range(len(sample_list)):
+        sample_path = f'{all_prompt_save_path}/{sample_index}'
+        sample_dict = sample_list[sample_index]
+        for i in range(len(sample_dict['ent_indices'])):
+            example_dict = copy.deepcopy(fault_example_dict)
+            ent_type = sample_dict['ent_types'][i]
+            if ent_type == 'node' or ent_type == 'pod':
+                fault_type = sample_dict['labels'][i]
+                save_path = f'{sample_path}/{i}_{fault_type}'
+                os.makedirs(save_path, exist_ok=True)
+                for key in a_analysis_dict['fault_type_infer'].keys():
+                    if ent_type not in key:
+                        continue
+                    observe_metrics = a_analysis_dict['fault_type_infer'][key]['metrics']
+                    prompt_str = f'Given such metric values:\n'
+                    prompt_str += metric_data_frame_to_str(sample_dict['raw_data'][i], sample_dict['data'][i], observe_metrics)
+                    example_dict[ent_type][f'{key}_test_examples'] = prompt_str
+                    prompt_template = a_analysis_dict['fault_type_infer'][key]['prompt'].format(**example_dict[ent_type])
+                    with open(f'{save_path}/{key}.txt', 'w') as f:
+                        f.write(prompt_template)

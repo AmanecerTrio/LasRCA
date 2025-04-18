@@ -155,6 +155,13 @@ class LasRCA(BaseClass):
         os.makedirs(selected_samples_save_path, exist_ok=True)
         pkl_save(f'{selected_samples_save_path}/selected_samples_k_{self.model_config["k"]}.pkl', samples)
         get_fault_labeling_prompts(self.model_config["k"])
+    
+    def prepare_prompts(self):
+        for dataset_type in ['train_valid', 'test', 'unlabeled']:
+            get_all_samples(self.dataset, dataset_type)
+            all_prompt_save_path = "/workspace/project/working/2024/LasRCA/temp_data/A/prompt"
+            sample_list = pkl_load(f'{all_prompt_save_path}/all_{dataset_type}_samples.pkl')
+            get_all_prompt_template(sample_list, dataset_type)
 
     def train(self):
         data_loader = self.mix_up_load_data()
